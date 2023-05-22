@@ -10,12 +10,11 @@ const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
 
 // Блок кода для работы с mongoDB
-const mongoDB = 'mongodb://127.0.0.1:27017/mestodb';
+const mongoDB = 'mongodb://localhost:27017/mestodb';
 mongoose.set('strictQuery', false);
 mongoose.connect(mongoDB);
 
 app.use(express.json());
-
 
 app.use((req, res, next) => {
   req.user = { _id: '646b640a85ed39727f7d7a5e' };
