@@ -8,5 +8,8 @@ const {
 userRouter.get('/', getUserList);
 userRouter.get('/:userId', getUserId);
 userRouter.post('/', createUser);
+// Обновить: профиль или аватар
+userRouter.patch('/me', updateUserData);
+userRouter.patch('/me/avatar', updateUserAvatar);
 
 module.exports = userRouter;
