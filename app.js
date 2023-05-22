@@ -31,4 +31,3 @@ app.use('*', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Адрес сервера — http://${BASE_PATH}:${PORT}`);
 });
-

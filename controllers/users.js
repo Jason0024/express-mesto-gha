@@ -12,7 +12,7 @@ const {
 const getUserList = (req, res) => {
   User.find({})
     .then((userList) => res.send({ data: userList }))
-    .catch((error) => res.status(ERROR_SERVER).send(`На сервере произошла ошибка: ${error}`));
+    .catch((error) => res.status(ERROR_SERVER).send({ message: `На сервере произошла ошибка: ${error.message}` }));
 };
 
 // Получение пользователя по ID
@@ -30,7 +30,7 @@ const getUserId = (req, res) => {
       if (error instanceof CastError) {
         res.status(ERROR_BAD_REQUEST).send({ message: 'Некорректный _id запрашиваемого пользователя' });
       } else {
-        res.status(ERROR_SERVER).send(`На сервере произошла ошибка: ${error}`);
+        res.status(ERROR_SERVER).send({ message: `На сервере произошла ошибка: ${error.message}` });
       }
     });
 };
@@ -45,7 +45,7 @@ const createUser = (req, res) => {
       if (error instanceof ValidationError) {
         res.status(ERROR_BAD_REQUEST).send({ message: 'Переданы некорректные данные при создании пользователя' });
       } else {
-        res.status(ERROR_SERVER).send(`На сервере произошла ошибка: ${error}`);
+        res.status(ERROR_SERVER).send({ message: `На сервере произошла ошибка: ${error.message}` });
       }
     });
 };
@@ -63,7 +63,7 @@ const updateUserData = (req, res) => {
       if (error instanceof ValidationError) {
         res.status(ERROR_BAD_REQUEST).send({ message: 'Переданы некорректные данные при обновлении профиля' });
       } else {
-        res.status(ERROR_SERVER).send(`На сервере произошла ошибка: ${error}`);
+        res.status(ERROR_SERVER).send({ message: `На сервере произошла ошибка: ${error.message}` });
       }
     });
 };
@@ -81,7 +81,7 @@ const updateUserAvatar = (req, res) => {
       if (error instanceof ValidationError) {
         res.status(ERROR_BAD_REQUEST).send({ message: 'Переданы некорректные данные при обновлении аватара' });
       } else {
-        res.status(ERROR_SERVER).send(`На сервере произошла ошибка: ${error}`);
+        res.status(ERROR_SERVER).send({ message: `На сервере произошла ошибка: ${error.message}` });
       }
     });
 };

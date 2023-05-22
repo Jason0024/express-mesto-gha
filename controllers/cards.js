@@ -10,10 +10,9 @@ const {
 
 // Получение списка карточек
 const getCardList = (req, res) => {
-  Card.find({})
-    .populate(['owner', 'likes'])
+  Card.find({}).populate('owner')
     .then((cardList) => res.send({ data: cardList }))
-    .catch((error) => res.status(ERROR_SERVER).send(`На сервере произошла ошибка: ${error}`));
+    .catch((error) => res.status(ERROR_SERVER).send({ message: `На сервере произошла ошибка: ${error.message}` }));
 };
 
 // Создание карточки
@@ -24,9 +23,9 @@ const createCard = (req, res) => {
     .catch((error) => {
       // https://mongoosejs.com/docs/api/error.html#error_Error-ValidationError
       if (error instanceof ValidationError) {
-        res.status(ERROR_BAD_REQUEST).send({ message: 'Переданы некорректные данные при создании карточки' });
+        res.status(ERROR_BAD_REQUEST).send({ message: `Переданы некорректные данные карточки. ${error.message}` });
       } else {
-        res.status(ERROR_SERVER).send(`На сервере произошла ошибка: ${error}`);
+        res.status(ERROR_SERVER).send({ message: `На сервере произошла ошибка: ${error.message}` });
       }
     });
 };
@@ -46,7 +45,7 @@ const deleteCard = (req, res) => {
       if (error instanceof CastError) {
         res.status(ERROR_BAD_REQUEST).send({ message: 'Переданы некорректные данные карточки' });
       } else {
-        res.status(ERROR_SERVER).send(`На сервере произошла ошибка: ${error}`);
+        res.status(ERROR_SERVER).send({ message: `На сервере произошла ошибка: ${error.message}` });
       }
     });
 };
@@ -70,7 +69,7 @@ const likeCard = (req, res) => {
       if (error instanceof CastError) {
         res.status(ERROR_BAD_REQUEST).send({ message: 'Переданы некорректные данные для постановки лайка' });
       } else {
-        res.status(ERROR_SERVER).send(`На сервере произошла ошибка: ${error}`);
+        res.status(ERROR_SERVER).send({ message: `На сервере произошла ошибка: ${error.message}` });
       }
     });
 };
@@ -94,7 +93,7 @@ const removeLikeCard = (req, res) => {
       if (error instanceof CastError) {
         res.status(ERROR_BAD_REQUEST).send({ message: 'Переданы некорректные данные для снятии лайка' });
       } else {
-        res.status(ERROR_SERVER).send(`На сервере произошла ошибка: ${error}`);
+        res.status(ERROR_SERVER).send({ message: `На сервере произошла ошибка: ${error.message}` });
       }
     });
 };
