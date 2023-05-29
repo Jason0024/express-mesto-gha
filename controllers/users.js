@@ -43,10 +43,12 @@ const createUser = (req, res, next) => {
     name, about, avatar, email, password,
   } = req.body;
   const passwordHash = bcrypt.hash(password, 10);
-  User.create({
-    name, about, avatar, email, password: passwordHash,
-  })
-    .then((userObject) => res.status(SUCCESS_CREATED).send({ data: userObject }))
+  passwordHash.then((hash) => User.create({
+    name, about, avatar, email, password: hash,
+  }))
+    .then(() => res.status(SUCCESS_CREATED).send({
+      name, about, avatar, email,
+    }))
     .catch((error) => {
       // https://mongoosejs.com/docs/api/error.html#error_Error-ValidationError
       if (error instanceof ValidationError) {
@@ -101,15 +103,15 @@ const login = (req, res, next) => {
 };
 
 const getProfile = (req, res, next) => {
-  User.findById(req.user._id)
-    .then((userElement) => {
-      if (userElement) {
-        res.send({ data: userElement });
+  User.findById(req.params.userId)
+    .then((selectedUser) => {
+      if (!selectedUser) {
+        throw new NotFound('Пользователь не найден');
       } else {
-        next(new NotFound('Пользователь по указанному _id не найден'));
+        res.send({ data: selectedUser });
       }
     })
-    .catch((error) => next(error));
+    .catch(() => { next(); });
 };
 
 module.exports = {
