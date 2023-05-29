@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
 
-const { Unauthorized } = require('../utils/response-errors/Unauthorized');
+const Unauthorized = require('../utils/response-errors/Unauthorized');
 
 // Схема базы данных пользователя
 const userSchema = new mongoose.Schema({
@@ -46,8 +46,6 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// Then you can pull it in as needed in find and populate calls via field selection as '+password'
-// eslint-disable-next-line func-names
 userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password')
     .then((userElement) => {
